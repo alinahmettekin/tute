@@ -1,4 +1,4 @@
-package com.aatstdio.tuteapp.tute
+package com.aatstdio.tuteapp
 
 import io.flutter.embedding.android.FlutterActivity
 

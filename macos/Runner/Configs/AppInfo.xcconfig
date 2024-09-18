@@ -8,7 +8,7 @@
 PRODUCT_NAME = tute
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.aatstdio.tuteapp.tute
+PRODUCT_BUNDLE_IDENTIFIER = com.aatstdio.tuteapp
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2024 com.aatstdio.tuteapp. All rights reserved.

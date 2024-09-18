@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tute/core/components/custom_button.dart';
+import 'package:tute/core/components/custom_loading_circle.dart';
 import 'package:tute/core/components/custom_text_field.dart';
+import 'package:tute/core/service/firebase_auth_service.dart';
 
 class RegisterView extends StatefulWidget {
   final void Function() onTap;
@@ -12,13 +14,27 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-  final TextEditingController emailController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController pwController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController pwMatchController = TextEditingController();
 
-  final TextEditingController pwController = TextEditingController();
+  void register(String email, password) async {
+    if (pwController.text == pwMatchController.text) {
+      showLoadingCircle(context);
 
-  final TextEditingController nameController = TextEditingController();
+      try {
+        await FirebaseAuthService.instance.registerWithEmailAndPassword(email, password);
 
-  final TextEditingController pwMatchController = TextEditingController();
+        if (mounted) hideLoadingCircle(context);
+      } catch (e) {
+        if (mounted) hideLoadingCircle(context);
+        print(e.toString());
+      }
+    } else {
+      print('şifreleri yanlış girdin');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +95,7 @@ class _RegisterViewState extends State<RegisterView> {
               ),
               CustomButton(
                 title: 'R E G I S T E R',
-                onTap: () {},
+                onTap: () => register(emailController.text, pwController.text),
               ),
               const SizedBox(
                 height: 20,

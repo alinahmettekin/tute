@@ -16,8 +16,8 @@ class _HomeViewState extends State<HomeView> {
         title: const Text('H O M E'),
         centerTitle: true,
       ),
-      drawer: CustomDrawer(),
-      body: SafeArea(
+      drawer: const CustomDrawer(),
+      body: const SafeArea(
           child: Column(
         children: [],
       )),

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tute/core/theme/theme_provider.dart';
-import 'package:tute/view/login_or_register/login_or_register_view.dart';
+import 'package:tute/firebase_options.dart';
+import 'package:tute/view/auth_gate/auth_gate_view.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     ChangeNotifierProvider(
       create: (context) => ThemeProvider(),
@@ -20,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: Provider.of<ThemeProvider>(context).themeData,
-      home: LoginOrRegisterView(),
+      home: const AuthGateView(),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tute/core/components/custom_drawer_tile.dart';
+import 'package:tute/core/service/firebase_auth_service.dart';
 import 'package:tute/view/settings/settings_view.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -47,7 +48,9 @@ class CustomDrawer extends StatelessWidget {
             CustomDrawerTile(
               title: 'L O G O U T',
               icon: Icons.logout,
-              onTap: () {},
+              onTap: () {
+                FirebaseAuthService.instance.logout();
+              },
             )
           ],
         ),
