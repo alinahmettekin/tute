@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tute/core/components/custom_button.dart';
 import 'package:tute/core/components/custom_loading_circle.dart';
 import 'package:tute/core/components/custom_text_field.dart';
-import 'package:tute/core/service/firebase_auth_service.dart';
+import 'package:tute/core/service/auth/firebase_auth_service.dart';
 
 class LoginView extends StatefulWidget {
   final void Function() onTap;

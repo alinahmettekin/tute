@@ -23,9 +23,6 @@ class FirebaseAuthService {
       final userCredential = await _auth!.signInWithEmailAndPassword(email: email, password: password);
       return userCredential;
     } on FirebaseAuthException catch (e) {
-      if (e.toString() == '[firebase_auth/invalid-email] The email address is badly formatted.]') {
-        print('evet');
-      }
       throw Exception(e);
     }
   }

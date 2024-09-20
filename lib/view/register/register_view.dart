@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tute/core/components/custom_button.dart';
 import 'package:tute/core/components/custom_loading_circle.dart';
 import 'package:tute/core/components/custom_text_field.dart';
-import 'package:tute/core/service/firebase_auth_service.dart';
+import 'package:tute/core/service/auth/firebase_auth_service.dart';
+import 'package:tute/core/service/database/database_service.dart';
 
 class RegisterView extends StatefulWidget {
   final void Function() onTap;
@@ -27,6 +28,13 @@ class _RegisterViewState extends State<RegisterView> {
         await FirebaseAuthService.instance.registerWithEmailAndPassword(email, password);
 
         if (mounted) hideLoadingCircle(context);
+
+        final db = DatabaseService();
+
+        await db.saveUserInfoInFirebase(
+          name: nameController.text,
+          email: emailController.text,
+        );
       } catch (e) {
         if (mounted) hideLoadingCircle(context);
         print(e.toString());

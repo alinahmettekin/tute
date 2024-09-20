@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tute/core/components/custom_drawer_tile.dart';
-import 'package:tute/core/service/firebase_auth_service.dart';
+import 'package:tute/core/service/auth/firebase_auth_service.dart';
+import 'package:tute/view/profile/profile_view.dart';
 import 'package:tute/view/settings/settings_view.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -30,7 +31,17 @@ class CustomDrawer extends StatelessWidget {
             CustomDrawerTile(
               title: 'P R O F I L E',
               icon: Icons.person,
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ProfileView(
+                      uid: FirebaseAuthService.instance.getCurrentUser()!.uid,
+                    ),
+                  ),
+                );
+              },
             ),
             CustomDrawerTile(
               icon: Icons.settings,
