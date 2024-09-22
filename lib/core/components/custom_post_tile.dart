@@ -89,12 +89,31 @@ class _CustomPostTileState extends State<CustomPostTile> {
       builder: (context) => CustomInputBox(
         controller: _commentController,
         hintText: 'Type Comment',
-        onPressed: () async {
-          databaseProvider.addComment(widget.post.id, _commentController.text);
-        },
+        onPressed: () => _addComment(),
         onPressedText: 'Send',
       ),
     );
+  }
+
+  Future<void> _addComment() async {
+    if (_commentController.text.trim().isEmpty) return;
+
+    try {
+      databaseProvider.addComment(widget.post.id, _commentController.text);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> _loadComments() async {
+    await databaseProvider.loadComments(widget.post.id);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadComments();
   }
 
   @override
