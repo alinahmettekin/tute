@@ -1,0 +1,34 @@
+import 'package:flutter/material.dart';
+import 'package:tute/core/models/post.dart';
+import 'package:tute/view/comment/comment_view.dart';
+import 'package:tute/view/post/post_view.dart';
+import 'package:tute/view/profile/profile_view.dart';
+
+void goUserPage(BuildContext context, String uid) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => ProfileView(uid: uid),
+    ),
+  );
+}
+
+void goPostPage(BuildContext context, Post post) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => PostView(
+        post: post,
+      ),
+    ),
+  );
+}
+
+void goCommentPage(BuildContext context, Post post) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => CommentView(),
+    ),
+  );
+}
