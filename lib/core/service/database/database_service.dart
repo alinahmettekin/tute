@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tute/core/models/comment.dart';
 import 'package:tute/core/models/post.dart';
 import 'package:tute/core/models/user_profile.dart';
@@ -159,5 +160,38 @@ class DatabaseService {
       print(e.toString());
       return [];
     }
+  }
+
+  Future<void> reportUserInFirebase(String postId, String userId) async {
+    final currentUser = _auth.getCurrentUser();
+
+    final report = {
+      'reportedBy': currentUser!.uid,
+      'messageId': postId,
+      'messageOwnerId': userId,
+      'timestamp': FieldValue.serverTimestamp()
+    };
+
+    await _db.collection('Reports').add(report);
+  }
+
+  Future<void> blockUserInFirebase(String userId) async {
+    final currentUserId = _auth.getCurrentUserUid();
+
+    await _db.collection('Users').doc(currentUserId).collection('BlockedUsers').doc(userId).set({});
+  }
+
+  Future<void> unblockUserInFirebase(String blockedUserId) async {
+    final currentUserId = _auth.getCurrentUserUid();
+
+    await _db.collection('Users').doc(currentUserId).collection('BlockedUsers').doc(blockedUserId).delete();
+  }
+
+  Future<List<String>> getBlockedUidsFromFirebase() async {
+    final currentUserId = _auth.getCurrentUserUid();
+
+    final snapshot = await _db.collection('Users').doc(currentUserId).collection('BlockedUsers').get();
+
+    return snapshot.docs.map((doc) => doc.id).toList();
   }
 }

@@ -60,10 +60,10 @@ class _PostViewState extends State<PostView> {
                       final comment = allComments[index];
                       return CustomCommentTile(
                         comment: comment,
-                        onUserTap: () {},
+                        onUserTap: () => goUserPage(context, comment.uid),
                       );
                     },
-                  )
+                  ),
           ],
         ),
       ),
