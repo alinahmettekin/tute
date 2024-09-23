@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tute/core/service/database/database_service.dart';
 
 class FirebaseAuthService {
   static FirebaseAuthService? _instance;
@@ -13,7 +14,6 @@ class FirebaseAuthService {
   FirebaseAuthService._internal() {
     _auth = FirebaseAuth.instance;
   }
-  void getBilmemNe() {}
   User? getCurrentUser() => _auth!.currentUser;
 
   String getCurrentUserUid() => _auth!.currentUser!.uid;
@@ -39,5 +39,17 @@ class FirebaseAuthService {
 
   Future<void> logout() async {
     await _auth!.signOut();
+  }
+
+  Future<void> deleteAccountInFirebase() async {
+    User? user = getCurrentUser();
+
+    if (user != null) {
+      final _db = DatabaseService();
+
+      await _db.deleteUserInfoInFirebase(user.uid);
+
+      await user.delete();
+    }
   }
 }

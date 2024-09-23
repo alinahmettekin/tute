@@ -194,4 +194,23 @@ class DatabaseService {
 
     return snapshot.docs.map((doc) => doc.id).toList();
   }
+
+  Future<void> deleteUserInfoInFirebase(String userId) async {
+    WriteBatch batch = _db.batch();
+
+    DocumentReference userDoc = _db.collection('Users').doc(userId);
+    batch.delete(userDoc);
+
+    QuerySnapshot posts = await _db.collection('Posts').where('uid', isEqualTo: userId).get();
+    for (var post in posts.docs) {
+      batch.delete(post.reference);
+    }
+
+    QuerySnapshot comments = await _db.collection('Comments').where('uid', isEqualTo: userId).get();
+    for (var comment in comments.docs) {
+      batch.delete(comment.reference);
+    }
+
+    await batch.commit();
+  }
 }

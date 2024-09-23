@@ -30,7 +30,7 @@ class Post {
       message: doc['message'],
       timestamp: doc['timestamp'],
       likes: doc['likes'],
-      likedBy: List<String>.from(doc['likedBy']) ?? [],
+      likedBy: List<String>.from(doc['likedBy']),
     );
   }
 

@@ -25,6 +25,66 @@ class _CustomPostTileState extends State<CustomPostTile> {
   late final listeningProvider = Provider.of<DatabaseProvider>(context);
   final _commentController = TextEditingController();
 
+  void _reportPostConfirmationBox() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Report Message'),
+        content: const Text('Are you sure to report this message'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () async {
+              await databaseProvider.reportUser(widget.post.id, widget.post.uid);
+
+              Navigator.of(context).pop();
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Message reported!'),
+                ),
+              );
+            },
+            child: const Text('Confirm'),
+          )
+        ],
+      ),
+    );
+  }
+
+  void _blockUserConfirmationBox() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Block User'),
+        content: const Text('Are you sure to block this user'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () async {
+              await databaseProvider.blockUser(widget.post.uid);
+
+              Navigator.of(context).pop();
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('User Blocked'),
+                ),
+              );
+            },
+            child: const Text('Confirm'),
+          )
+        ],
+      ),
+    );
+  }
+
   void _showOptions() {
     String currentUserId = FirebaseAuthService.instance.getCurrentUserUid();
     final bool postOwner = widget.post.uid == currentUserId;
@@ -54,6 +114,7 @@ class _CustomPostTileState extends State<CustomPostTile> {
                 title: const Text('Report'),
                 onTap: () async {
                   Navigator.pop(context);
+                  _reportPostConfirmationBox();
                 },
               ),
               ListTile(
@@ -61,6 +122,7 @@ class _CustomPostTileState extends State<CustomPostTile> {
                 title: const Text('Block user'),
                 onTap: () async {
                   Navigator.pop(context);
+                  _blockUserConfirmationBox();
                 },
               ),
               ListTile(
@@ -111,7 +173,6 @@ class _CustomPostTileState extends State<CustomPostTile> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _loadComments();
   }

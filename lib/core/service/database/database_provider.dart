@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tute/core/models/comment.dart';
 import 'package:tute/core/models/post.dart';
@@ -23,7 +24,9 @@ class DatabaseProvider extends ChangeNotifier {
   Future<void> loadAllPosts() async {
     final allPosts = await _db.getAllPostsFromFirebase();
 
-    _allposts = allPosts;
+    final blockedUserIds = await _db.getBlockedUidsFromFirebase();
+
+    _allposts = allPosts.where((post) => !blockedUserIds.contains(post.uid)).toList();
     initializeLikeMap();
 
     notifyListeners();
