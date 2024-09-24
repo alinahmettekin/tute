@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tute/core/models/post.dart';
 import 'package:tute/view/blocked/blocked_view.dart';
 import 'package:tute/view/delete_account/delete_account_view.dart';
+import 'package:tute/view/home/home_view.dart';
 import 'package:tute/view/post/post_view.dart';
 import 'package:tute/view/profile/profile_view.dart';
 
@@ -40,5 +41,15 @@ void goDeleteAccountPage(BuildContext context) {
     MaterialPageRoute(
       builder: (context) => const DeleteAccountView(),
     ),
+  );
+}
+
+void goHomePage(BuildContext context) {
+  Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(
+      builder: (context) => const HomeView(),
+    ),
+    (route) => route.isFirst,
   );
 }

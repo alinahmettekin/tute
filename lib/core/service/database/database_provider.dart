@@ -14,8 +14,10 @@ class DatabaseProvider extends ChangeNotifier {
   Future<void> updateUserBio(String bio) => _db.updateUserBioInFirebase(bio);
 
   List<Post> _allposts = [];
+  List<Post> _followingPosts = [];
 
   List<Post> get allPosts => _allposts;
+  List<Post> get followingPosts => _followingPosts;
 
   Future<void> sendMessage(String message) async {
     await _db.postMessageInFireBase(message);
@@ -27,7 +29,20 @@ class DatabaseProvider extends ChangeNotifier {
     final blockedUserIds = await _db.getBlockedUidsFromFirebase();
 
     _allposts = allPosts.where((post) => !blockedUserIds.contains(post.uid)).toList();
+
+    loadFollowingPosts();
+
     initializeLikeMap();
+
+    notifyListeners();
+  }
+
+  Future<void> loadFollowingPosts() async {
+    String currentUserId = FirebaseAuthService.instance.getCurrentUserUid();
+
+    final followingUserIds = await _db.getFollowingUidsFromFirebase(currentUserId);
+
+    _followingPosts = _allposts.where((post) => followingUserIds.contains(post.uid)).toList();
 
     notifyListeners();
   }
@@ -309,6 +324,19 @@ class DatabaseProvider extends ChangeNotifier {
 
       _followingsProfile[uid] = followingsProfiles;
 
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  List<UserProfile> _searchResults = [];
+
+  List<UserProfile> get searchResults => _searchResults;
+  Future<void> searchUser(String searchTerm) async {
+    try {
+      final results = await _db.searchUsersInFirebase(searchTerm);
+      _searchResults = results;
       notifyListeners();
     } catch (e) {
       print(e);
