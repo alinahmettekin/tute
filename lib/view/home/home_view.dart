@@ -54,20 +54,43 @@ class _HomeViewState extends State<HomeView> {
     await databaseProvider.loadAllPosts();
   }
 
+  Future<void> loadFollowingPosts() async {
+    await databaseProvider.loadFollowingPosts();
+  }
+
   @override
   Widget build(BuildContext context) {
-    print('the whole page is refreshed');
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: _postMessageBox,
-        child: const Icon(Icons.add),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: _postMessageBox,
+          child: const Icon(Icons.add),
+        ),
+        appBar: AppBar(
+          title: const Text('H O M E'),
+          centerTitle: true,
+          bottom: TabBar(
+            dividerColor: Colors.transparent,
+            labelColor: Theme.of(context).colorScheme.inversePrimary,
+            unselectedLabelColor: Theme.of(context).colorScheme.primary,
+            indicatorColor: Theme.of(context).colorScheme.secondary,
+            tabs: const [
+              Tab(
+                text: 'For You',
+              ),
+              Tab(
+                text: 'Followings',
+              )
+            ],
+          ),
+        ),
+        drawer: const CustomDrawer(),
+        body: TabBarView(children: [
+          _buildPostList(listeningProvider.allPosts),
+          _buildPostList(listeningProvider.followingPosts),
+        ]),
       ),
-      appBar: AppBar(
-        title: const Text('H O M E'),
-        centerTitle: true,
-      ),
-      drawer: const CustomDrawer(),
-      body: _buildPostList(listeningProvider.allPosts),
     );
   }
 

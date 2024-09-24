@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tute/core/components/custom_input_box.dart';
+import 'package:tute/core/helper/time_formatter.dart';
 import 'package:tute/core/models/post.dart';
 import 'package:tute/core/service/auth/firebase_auth_service.dart';
 import 'package:tute/core/service/database/database_provider.dart';
@@ -273,8 +274,13 @@ class _CustomPostTileState extends State<CustomPostTile> {
                     const SizedBox(
                       width: 5,
                     ),
-                    Text(commentCount != 0 ? commentCount.toString() : '')
+                    Text(commentCount != 0 ? commentCount.toString() : ''),
                   ],
+                ),
+                const Spacer(),
+                Text(
+                  formatTimestamp(widget.post.timestamp),
+                  style: TextStyle(color: Theme.of(context).colorScheme.primary),
                 ),
               ],
             ),

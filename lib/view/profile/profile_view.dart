@@ -5,6 +5,7 @@ import 'package:tute/core/components/custom_follow_button.dart';
 import 'package:tute/core/components/custom_input_box.dart';
 import 'package:tute/core/components/custom_post_tile.dart';
 import 'package:tute/core/components/custom_profile_stats.dart';
+import 'package:tute/core/helper/navigate_helper.dart';
 import 'package:tute/core/models/post.dart';
 import 'package:tute/core/models/user_profile.dart';
 import 'package:tute/core/service/auth/firebase_auth_service.dart';
@@ -107,6 +108,10 @@ class _ProfileViewState extends State<ProfileView> {
         title: Text(isLoading ? ' ' : user!.name),
         centerTitle: true,
         foregroundColor: Theme.of(context).colorScheme.primary,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => goHomePage(context),
+        ),
       ),
       body: SingleChildScrollView(
         child: SafeArea(
