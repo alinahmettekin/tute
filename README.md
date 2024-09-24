@@ -1,6 +1,6 @@
 # tute
 
-A new Flutter project.
+Tute is social media app that uses Firebase. You can post a message and commit into it. Tute has following features; Follow-unfollow, block, report, profile settings, delete account etc. 
 
 ## Getting Started
 
